@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An interactive challenge covering CNF, resolution, first-order logic, models, and quantifiers.">
+  <title>Susan Zehra's Smart City Logic Challenge</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand-mark" aria-hidden="true">SZ</div>
+    <div>
+      <p class="eyebrow">Interactive logic investigation</p>
+      <h1>Susan Zehra’s Smart City Logic Challenge</h1>
+    </div>
+    <div class="progress-wrap" aria-label="Challenge progress">
+      <span id="progressText">0 of 7 missions</span>
+      <div class="progress-track"><div id="progressBar"></div></div>
+    </div>
+  </header>
+
+  <main>
+    <section id="welcome" class="panel hero">
+      <div>
+        <span class="mission-label">Briefing</span>
+        <h2>Restore the smart city’s reasoning system</h2>
+        <p>A storm has produced conflicting reports from delivery robots, charging stations, and security gates. You are the logic investigator. Organize the evidence, prove conclusions, and repair the city’s knowledge base.</p>
+        <div class="notice"><strong>Privacy:</strong> Your name is used only to personalize the completion certificate. Nothing is transmitted or stored.</div>
+        <label for="studentName">Enter your name</label>
+        <input id="studentName" type="text" maxlength="60" autocomplete="name" placeholder="Your full name">
+        <button id="startBtn" class="primary">Begin the investigation</button>
+      </div>
+      <div class="city-visual" aria-label="Illustration of a smart city control center">
+        <div class="skyline"><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="signal s1">P → Q</div><div class="signal s2">∀x</div><div class="signal s3">□</div>
+        <div class="road"></div><div class="robot">●<i></i></div>
+      </div>
+    </section>
+
+    <section id="review" class="panel hidden">
+      <span class="mission-label">Quick review</span>
+      <h2>What you need before starting</h2>
+      <div class="review-grid">
+        <article><h3>CNF</h3><p>A conjunction of clauses; each clause is a disjunction of literals.</p><code>(¬P ∨ Q) ∧ (R ∨ S)</code></article>
+        <article><h3>Resolution</h3><p>Combine clauses containing complementary literals and remove that pair.</p><code>(P ∨ Q), (¬P ∨ R) ⟹ (Q ∨ R)</code></article>
+        <article><h3>Refutation</h3><p>To prove <em>KB ⊨ α</em>, add <em>¬α</em>. Deriving the empty clause means a contradiction was found.</p><code>KB ∧ ¬α ⟹ □</code></article>
+        <article><h3>First-order logic</h3><p>Predicates describe properties and relationships among objects in a domain.</p><code>Serves(robot1, stationA)</code></article>
+        <article><h3>Quantifiers</h3><p><strong>∀</strong> means “for every.” <strong>∃</strong> means “there exists at least one.” Scope and order matter.</p><code>∀x ∃y Serves(x,y)</code></article>
+        <article><h3>Translation tip</h3><p>Universal categories usually use implication; existential claims usually use conjunction.</p><code>∀x(Robot(x) → Safe(x))</code></article>
+      </div>
+      <button class="primary next" data-next="m1">Start Mission 1</button>
+    </section>
+
+    <section id="m1" class="panel mission hidden" data-mission="1">
+      <span class="mission-label">Mission 1 · Evidence intake</span>
+      <h2>Classify the control-room statements</h2>
+      <p>Choose the most precise category for each item.</p>
+      <div id="classifyList" class="question-list"></div>
+      <details><summary>Need a hint?</summary><p>A literal is an atom or its negation. A clause joins literals with OR. CNF joins clauses with AND.</p></details>
+      <div class="actions"><button class="check" data-check="m1">Check mission</button></div>
+      <div class="feedback" id="m1Feedback" aria-live="polite"></div>
+    </section>
+
+    <section id="m2" class="panel mission hidden" data-mission="2">
+      <span class="mission-label">Mission 2 · CNF repair bay</span>
+      <h2>Convert the security rule into CNF</h2>
+      <p><strong>Rule:</strong> If Gate A is open, then Sensor B is active and Camera C is recording.</p>
+      <p><strong>Symbols:</strong> G = Gate A is open, S = Sensor B is active, C = Camera C is recording.</p>
+      <p>Drag the transformation cards into the correct order. You may also use the arrow buttons.</p>
+      <div id="cnfPool" class="card-pool dropzone" aria-label="Available transformation cards"></div>
+      <h3>Your sequence</h3>
+      <div id="cnfAnswer" class="dropzone sequence" aria-label="CNF transformation sequence"></div>
+      <details><summary>Need a hint?</summary><p>First replace the implication. Then distribute the OR across the conjunction. The final answer contains two clauses joined by AND.</p></details>
+      <div class="actions"><button id="resetCnf" class="secondary">Reset</button><button class="check" data-check="m2">Check mission</button></div>
+      <div class="feedback" id="m2Feedback" aria-live="polite"></div>
+    </section>
+
+    <section id="m3" class="panel mission hidden" data-mission="3">
+      <span class="mission-label">Mission 3 · Resolution detective</span>
+      <h2>Follow the evidence to a contradiction</h2>
+      <p>The city database contains these clauses:</p>
+      <div class="clause-board"><span>C₁: A ∨ B</span><span>C₂: ¬A</span><span>C₃: ¬B ∨ C</span><span>C₄: ¬C</span></div>
+      <ol class="steps">
+        <li>Resolve C₁ and C₂. <select id="res1"><option value="">Choose</option><option>A</option><option>B</option><option>¬B</option><option>C</option></select></li>
+        <li>Resolve that result with C₃. <select id="res2"><option value="">Choose</option><option>A</option><option>B</option><option>C</option><option>¬C</option></select></li>
+        <li>Resolve that result with C₄. <select id="res3"><option value="">Choose</option><option>True</option><option>False</option><option>□</option><option>C</option></select></li>
+        <li>What does the final result mean? <select id="resMeaning"><option value="">Choose</option><option value="valid">The clauses cannot all be true together.</option><option>The query is automatically false.</option><option>Every clause is a tautology.</option></select></li>
+      </ol>
+      <details><summary>Need a hint?</summary><p>Resolve complementary pairs in this order: A with ¬A, then B with ¬B, and finally C with ¬C.</p></details>
+      <div class="actions"><button class="check" data-check="m3">Check mission</button></div>
+      <div class="feedback" id="m3Feedback" aria-live="polite"></div>
+    </section>
+
+    <section id="m4" class="panel mission hidden" data-mission="4">
+      <span class="mission-label">Mission 4 · Refutation room</span>
+      <h2>Prove that Station C must close</h2>
+      <p>The knowledge base contains:</p>
+      <ul class="kb"><li>Storm → PowerFailure</li><li>PowerFailure → CloseC</li><li>Storm</li></ul>
+      <p>Put the proof-by-refutation actions in the correct order.</p>
+      <div id="refutationPool" class="card-pool dropzone"></div>
+      <h3>Your proof plan</h3><div id="refutationAnswer" class="dropzone sequence"></div>
+      <details><summary>Need a hint?</summary><p>Negate the statement you want to prove. Convert every rule to clauses, derive PowerFailure and CloseC, then resolve CloseC with its negation.</p></details>
+      <div class="actions"><button id="resetRefutation" class="secondary">Reset</button><button class="check" data-check="m4">Check mission</button></div>
+      <div class="feedback" id="m4Feedback" aria-live="polite"></div>
+    </section>
+
+    <section id="m5" class="panel mission hidden" data-mission="5">
+      <span class="mission-label">Mission 5 · FOL model workshop</span>
+      <h2>Identify the building blocks</h2>
+      <p>For each expression, identify its role in the smart-city language.</p>
+      <div id="folList" class="question-list"></div>
+      <details><summary>Need a hint?</summary><p>A constant names one object. A variable can represent many objects. A predicate is true or false. A function returns an object.</p></details>
+      <div class="actions"><button class="check" data-check="m5">Check mission</button></div>
+      <div class="feedback" id="m5Feedback" aria-live="polite"></div>
+    </section>
+
+    <section id="m6" class="panel mission hidden" data-mission="6">
+      <span class="mission-label">Mission 6 · Policy translator</span>
+      <h2>Translate real policies into FOL</h2>
+      <div class="scenario-card"><strong>Domain:</strong> all city objects. Predicates: Robot(x), Authorized(x), Station(y), Serves(x,y).</div>
+      <fieldset><legend>1. Every authorized robot serves at least one station.</legend>
+        <label><input type="radio" name="q61" value="a"> ∀x((Robot(x) ∧ Authorized(x)) → ∃y(Station(y) ∧ Serves(x,y)))</label>
+        <label><input type="radio" name="q61" value="b"> ∃x(Robot(x) → Authorized(x))</label>
+        <label><input type="radio" name="q61" value="c"> ∀x∀y(Station(y) → Serves(x,y))</label>
+      </fieldset>
+      <fieldset><legend>2. Some station is served by every robot.</legend>
+        <label><input type="radio" name="q62" value="a"> ∀x(Robot(x) → ∃y(Station(y) ∧ Serves(x,y)))</label>
+        <label><input type="radio" name="q62" value="b"> ∃y(Station(y) ∧ ∀x(Robot(x) → Serves(x,y)))</label>
+        <label><input type="radio" name="q62" value="c"> ∀y(Station(y) ∧ ∃x Serves(x,y))</label>
+      </fieldset>
+      <details><summary>Need a hint?</summary><p>“Every robot has some station” has the pattern ∀x∃y. “There is one station for every robot” has the pattern ∃y∀x.</p></details>
+      <div class="actions"><button class="check" data-check="m6">Check mission</button></div>
+      <div class="feedback" id="m6Feedback" aria-live="polite"></div>
+    </section>
+
+    <section id="m7" class="panel mission hidden" data-mission="7">
+      <span class="mission-label">Mission 7 · Final city investigation</span>
+      <h2>Inspect the live service model</h2>
+      <p><strong>Domain:</strong> Robots R1 and R2; Stations North and South.</p>
+      <div class="model-map" aria-label="Service relationship map">
+        <div class="node robot-node">R1</div><div class="links">serves →</div><div class="node station-node">North</div>
+        <div class="node robot-node">R2</div><div class="links">serves →</div><div class="node station-node">North</div>
+        <div class="node robot-node r2">R2</div><div class="links">serves →</div><div class="node station-node">South</div>
+      </div>
+      <div class="final-grid">
+        <label>Is ∀x∃y Serves(x,y) true?<select id="final1"><option value="">Choose</option><option value="yes">Yes</option><option value="no">No</option></select></label>
+        <label>Is ∃y∀x Serves(x,y) true?<select id="final2"><option value="">Choose</option><option value="yes">Yes</option><option value="no">No</option></select></label>
+        <label>Which station is the witness for the second statement?<select id="final3"><option value="">Choose</option><option value="north">North</option><option value="south">South</option><option value="none">No station</option></select></label>
+        <label>If NewCity(x) → Inspected(x), what is its CNF clause?<select id="final4"><option value="">Choose</option><option value="correct">¬NewCity(x) ∨ Inspected(x)</option><option>NewCity(x) ∨ Inspected(x)</option><option>¬NewCity(x) ∧ Inspected(x)</option></select></label>
+      </div>
+      <label for="explanation">In one or two sentences, explain why changing quantifier order can change meaning.</label>
+      <textarea id="explanation" rows="4" placeholder="Write your explanation here..."></textarea>
+      <details><summary>Need a hint?</summary><p>First ask whether each robot has at least one station. Then ask whether one particular station works for every robot. Your explanation should mention whether the same witness must work for everyone.</p></details>
+      <div class="actions"><button class="check" data-check="m7">Complete investigation</button></div>
+      <div class="feedback" id="m7Feedback" aria-live="polite"></div>
+    </section>
+
+    <section id="certificate" class="panel certificate hidden">
+      <p class="eyebrow">Investigation complete</p>
+      <h2>Certificate of Completion</h2>
+      <p>This certifies that</p><h3 id="certName"></h3>
+      <p>successfully completed</p><strong>Susan Zehra’s Smart City Logic Challenge</strong>
+      <p class="cert-detail">CNF · Resolution · First-Order Logic · Quantifiers</p>
+      <p id="certDate"></p>
+      <p class="cert-code" id="certCode"></p>
+      <div class="actions no-print"><button onclick="window.print()" class="primary">Print or Save as PDF</button></div>
+    </section>
+  </main>
+  <footer>Copyright © 2026 Susan Zehra. All rights reserved. Source code may not be copied, modified, distributed, published, or reused without prior written permission.</footer>
+  <script src="assets/app.js"></script>
+</body>
+</html>
