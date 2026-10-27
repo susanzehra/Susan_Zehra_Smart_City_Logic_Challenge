@@ -137,21 +137,21 @@
     <section id="m7" class="panel mission hidden" data-mission="7">
       <span class="mission-label">Mission 7 · Final city investigation</span>
       <h2>Inspect the live service model</h2>
-      <p><strong>Domain:</strong> Robots R1 and R2; Stations North and South.</p>
+      <p><strong>Domain:</strong> Robots R1 and R2; Stations North and South. In the statements below, <strong>x represents a robot</strong> and <strong>y represents a station</strong>.</p>
       <div class="model-map" aria-label="Service relationship map">
         <div class="node robot-node">R1</div><div class="links">serves →</div><div class="node station-node">North</div>
         <div class="node robot-node">R2</div><div class="links">serves →</div><div class="node station-node">North</div>
         <div class="node robot-node r2">R2</div><div class="links">serves →</div><div class="node station-node">South</div>
       </div>
       <div class="final-grid">
-        <label>Is ∀x∃y Serves(x,y) true?<select id="final1"><option value="">Choose</option><option value="yes">Yes</option><option value="no">No</option></select></label>
-        <label>Is ∃y∀x Serves(x,y) true?<select id="final2"><option value="">Choose</option><option value="yes">Yes</option><option value="no">No</option></select></label>
+        <label>Is ∀x(Robot(x) → ∃y(Station(y) ∧ Serves(x,y))) true?<select id="final1"><option value="">Choose</option><option value="yes">Yes</option><option value="no">No</option></select></label>
+        <label>Is ∃y(Station(y) ∧ ∀x(Robot(x) → Serves(x,y))) true?<select id="final2"><option value="">Choose</option><option value="yes">Yes</option><option value="no">No</option></select></label>
         <label>Which station is the witness for the second statement?<select id="final3"><option value="">Choose</option><option value="north">North</option><option value="south">South</option><option value="none">No station</option></select></label>
         <label>If NewCity(x) → Inspected(x), what is its CNF clause?<select id="final4"><option value="">Choose</option><option value="correct">¬NewCity(x) ∨ Inspected(x)</option><option>NewCity(x) ∨ Inspected(x)</option><option>¬NewCity(x) ∧ Inspected(x)</option></select></label>
       </div>
       <label for="explanation">In one or two sentences, explain why changing quantifier order can change meaning.</label>
       <textarea id="explanation" rows="4" placeholder="Write your explanation here..."></textarea>
-      <details><summary>Need a hint?</summary><p>First ask whether each robot has at least one station. Then ask whether one particular station works for every robot. Your explanation should mention whether the same witness must work for everyone.</p></details>
+      <details><summary>Need a hint?</summary><p>For the first statement, check whether each robot serves at least one station. For the second, look for one station that is served by every robot. The implication restricts x to robots, and Station(y) restricts y to stations.</p></details>
       <div class="actions"><button class="check" data-check="m7">Complete investigation</button></div>
       <div class="feedback" id="m7Feedback" aria-live="polite"></div>
     </section>

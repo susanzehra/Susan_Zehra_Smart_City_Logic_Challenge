@@ -25,6 +25,8 @@ No build process, server, database, password, or API is required. Student names 
 
 Open `index.html` in a browser and complete all seven missions. After the final mission, verify that the certificate displays the entered name and local completion date/time. Test **Print or Save as PDF** before distributing the activity.
 
+In Mission 7, the quantified statements explicitly restrict `x` to robots and `y` to stations. Both statements are true in the displayed model, and **North** is the witness for the existential statement.
+
 ## License
 
 Copyright © 2026 Susan Zehra. All rights reserved. See `LICENSE.txt`.
